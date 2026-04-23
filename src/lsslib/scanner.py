@@ -45,7 +45,7 @@ def group_files(files: list[Union[str, os.PathLike[str]]]) -> list[str]:
     return [str(i) for i in seq_shapes.values()]
 
 
-def group_files_from_dir(directory: Union[str, os.PathLike[str]]):
+def group_files_from_dir(directory: Union[str, os.PathLike[str]]) -> list[str]:
     directory = Path(directory)
     if not directory.is_dir():
         raise ValueError("Can only group files on a directory, nothing else...")
@@ -53,8 +53,9 @@ def group_files_from_dir(directory: Union[str, os.PathLike[str]]):
     try:
         items = sorted(directory.iterdir(), key=lambda p: p.name.lower())
     except PermissionError:
-        print(f"lss cannot open directory '{directory.as_posix()}': Permission denied")
-        return
+        raise PermissionError(
+            f"lss cannot open directory '{directory.as_posix()}': Permission denied"
+        )
 
     items = [i for i in items if not i.is_file()]
-    group_files(items)
+    return group_files(items)
