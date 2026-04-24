@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+import os
 import re
 from collections import defaultdict
 from dataclasses import dataclass
+from pathlib import Path
 
 
 def parse_filename(filename: str):
@@ -92,7 +94,7 @@ class SequenceIdentifier(object):
     ext: str
 
 
-class Sequences(defaultdict):
+class Sequences(defaultdict[SequenceIdentifier, Frames]):
     """
     Dictionary of sequence identifiers and found frames.
 
@@ -108,16 +110,6 @@ class Sequences(defaultdict):
     def __init__(self) -> None:
         super().__init__(Frames)
 
-    def scan(self, filenames: list[str]) -> None:
-        for filename in filenames:
-            result = parse_filename(filename)
-            if result is None:
-                continue
-
-            name, frame_num, ext = result
-            key = SequenceIdentifier(name, len(frame_num), ext)
-            self[key].append(int(frame_num))
-
     def format(self) -> list[str]:
         out = []
 
@@ -127,3 +119,25 @@ class Sequences(defaultdict):
             out.append(cur_row)
 
         return out
+
+
+def scan_filenames(filenames: list[str]) -> tuple[Sequences, list[str]]:
+    non_img_files = []
+    seq_dict = Sequences()
+
+    for filename in filenames:
+        parsed = parse_filename(filename)
+        if parsed is None:
+            non_img_files.append(filename)
+            continue
+
+        name, frame_num, ext = parsed
+        key = SequenceIdentifier(name, len(frame_num), ext)
+        seq_dict[key].append(int(frame_num))
+
+    return seq_dict, non_img_files
+
+
+def scan(path: str | os.PathLike) -> tuple[Sequences, list[str]]:
+    filenames = [p.name for p in Path(path).iterdir()]
+    return scan_filenames(filenames)
