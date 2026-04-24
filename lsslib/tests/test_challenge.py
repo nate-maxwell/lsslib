@@ -12,10 +12,10 @@ def test_frame_list() -> None:
 
 
 def test_parse_filename() -> None:
-    assert lsslib.parse_filename("foo.0001.exr") == ("foo", "0001", "exr")
-    assert lsslib.parse_filename("foo.001.jpg") == ("foo", "001", "jpg")
-    assert lsslib.parse_filename("foo.1.png") == ("foo", "1", "png")
-    assert lsslib.parse_filename("foo.bar.0100.exr") == ("foo.bar", "0100", "exr")
+    assert lsslib.parse_frame_name("foo.0001.exr") == ("foo", "0001", "exr")
+    assert lsslib.parse_frame_name("foo.001.jpg") == ("foo", "001", "jpg")
+    assert lsslib.parse_frame_name("foo.1.png") == ("foo", "1", "png")
+    assert lsslib.parse_frame_name("foo.bar.0100.exr") == ("foo.bar", "0100", "exr")
 
 
 def test_sequences() -> None:

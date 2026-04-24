@@ -5,9 +5,14 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 
-def parse_filename(filename: str):
+def parse_frame_name(filename: str) -> Optional[tuple]:
+    """
+    Returns the name, frame_num, ext of an image frame formatted as "foo.0001.exr"
+    if it can be determined else None.
+    """
     PATTERN: re.Pattern[str] = re.compile(r"^(.+?)\.(\d+)\.([^.]+)$")
 
     match = PATTERN.match(filename)
@@ -29,7 +34,23 @@ def _run_to_str(run: list[int]) -> str:
 
 
 class Frames(list):
-    """Frame numbers that make up a sequence."""
+    """
+    A sorted list of integer frame numbers belonging to a single image sequence.
+
+    Subclasses list and adds sequence-aware properties and string formatting.
+    String representation encodes the frame range compactly:
+
+        [1, 2, 3, 4]        -> "1-4"
+        [0, 5, 10, 15]      -> "0-15x5"
+        [1, 2, 3, 5, 6, 7]  -> "1-3,5-7"
+        [1]                 -> "1"
+        []                  -> ""
+
+    Properties:
+        stride (int): The incrementation stride of the images.
+        first (int): The first frame number.
+        last (int): The last frame number.
+    """
 
     def __str__(self) -> str:
         self.sort()
@@ -122,11 +143,12 @@ class Sequences(defaultdict[SequenceIdentifier, Frames]):
 
 
 def scan_filenames(filenames: list[str]) -> tuple[Sequences, list[str]]:
+    """Returns a populated Sequences dict and a list of non-frame files."""
     non_img_files = []
     seq_dict = Sequences()
 
     for filename in filenames:
-        parsed = parse_filename(filename)
+        parsed = parse_frame_name(filename)
         if parsed is None:
             non_img_files.append(filename)
             continue
@@ -139,5 +161,15 @@ def scan_filenames(filenames: list[str]) -> tuple[Sequences, list[str]]:
 
 
 def scan(path: str | os.PathLike) -> tuple[Sequences, list[str]]:
-    filenames = [p.name for p in Path(path).iterdir()]
+    """
+    Returns a populated Sequences dict and a list of non-frame files from a
+    directory.
+
+    Raises ValueError if path is not dir.
+    """
+    p = Path(path)
+    if not p.is_dir():
+        raise ValueError(f"{p.as_posix()} is not a directory!")
+
+    filenames = [f.name for f in p.iterdir()]
     return scan_filenames(filenames)
