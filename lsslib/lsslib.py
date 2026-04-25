@@ -2,6 +2,10 @@
 
 """
 lsslib, a small library for listing image sequences in a directory.
+
+usage: lss [-h] [-a] [paths ...]
+    -h help
+    -a list all items
 """
 
 import argparse
@@ -144,6 +148,7 @@ class SequenceDict(defaultdict[SequenceIdentifier, FrameList]):
             cur_row = f"{k.name}.{str(v)}#{pad}.{k.ext}"
             out.append(cur_row)
 
+        out.sort()
         return out
 
 
