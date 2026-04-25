@@ -84,7 +84,7 @@ class FrameList(list):
         # Walk frames starting from the second, building up runs of consistent stride.
         # On the first step into a new run we don't know the stride yet, so we derive
         # it from the gap between the current frame and the single element in run.
-        # Once run has two or more elements the stride is fixed as run[1] - run[0].
+        # Once run has two or more elements, the stride is fixed as run[1] - run[0].
         for frame in self[1:]:
             run_stride = run[1] - run[0] if len(run) > 1 else frame - run[0]
             if frame == run[-1] + run_stride:
