@@ -1,7 +1,5 @@
 import lsslib
 
-lss_from_files = print  # temp
-
 
 def test_frame_list() -> None:
     assert str(lsslib.Frames([1])) == "1"

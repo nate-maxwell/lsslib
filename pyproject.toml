@@ -1,5 +1,5 @@
 [tool.pytest.ini_options]
-testpaths = ["src/lsslib/tests"]
+testpaths = ["lsslib/tests"]
 pythonpath = ["."]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
