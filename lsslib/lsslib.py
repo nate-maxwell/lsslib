@@ -14,10 +14,9 @@ import re
 from collections import defaultdict
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 
-def parse_frame_name(filename: str) -> Optional[tuple]:
+def parse_frame_name(filename: str) -> tuple | None:
     """
     Returns the name, frame_num, ext of an image frame formatted as "foo.0001.exr"
     if it can be determined else None.
@@ -188,6 +187,13 @@ def scan_dir(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
 
 
 def lss(path: str | os.PathLike, all_files: bool = False) -> None:
+    """
+    Print image sequences found in a directory, one per line.
+
+    Args:
+        path (str | os.PathLike): Directory to scan.
+        all_files (bool): If True, also print non-sequence files after sequences.
+    """
     seq_dict, others = scan_dir(path)
     seqs = seq_dict.to_strings()
 
