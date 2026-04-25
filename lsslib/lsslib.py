@@ -151,7 +151,6 @@ class SequenceDict(defaultdict[SequenceIdentifier, FrameList]):
             cur_row = f"{k.name}.{str(v)}#{pad}.{k.ext}"
             out.append(cur_row)
 
-        out.sort()
         return out
 
 

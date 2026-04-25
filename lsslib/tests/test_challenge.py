@@ -96,7 +96,7 @@ def test_same_seq_dif_padding() -> None:
     seq_table, _ = lsslib.scan_filenames(files)
     result = seq_table.to_strings()
 
-    assert result == ["foo.1-3#3.exr", "foo.1-3#4.exr"]
+    assert result == ["foo.1-3#4.exr", "foo.1-3#3.exr"]
 
 
 def test_non_padded() -> None:
@@ -158,10 +158,10 @@ def test_many_kinds() -> None:
     result = seq_table.to_strings()
 
     assert result == [
+        "foo.1-3,5-7#4.txt",
+        "foo.1-3#3.txt",
         "bar.0-20x5#4.txt",
         "baz.1-8#4.md",
         "finbad.1-8#.md",
-        "foo.1-3#3.txt",
-        "foo.1-3,5-7#4.txt",
     ]
     assert others == ["README.md"]
