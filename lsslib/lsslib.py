@@ -115,6 +115,10 @@ class FrameList(list):
         self.sort()
         return self[-1]
 
+    @property
+    def contiguous(self) -> bool:
+        return self.stride != 0
+
 
 @dataclass(frozen=True)
 class SequenceIdentifier(object):
