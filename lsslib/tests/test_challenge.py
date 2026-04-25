@@ -164,5 +164,4 @@ def test_many_kinds() -> None:
         "foo.1-3#3.txt",
         "foo.1-3,5-7#4.txt",
     ]
-
     assert others == ["README.md"]
