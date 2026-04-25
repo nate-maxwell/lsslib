@@ -1,1 +1,1 @@
-from lsslib.lsslib import *
+from .lsslib import *
