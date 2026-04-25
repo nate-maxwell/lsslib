@@ -31,6 +31,7 @@ def parse_frame_name(filename: str) -> tuple | None:
 
 
 def _run_to_str(run: list[int]) -> str:
+    """Formats a single run of frame numbers as a compact string."""
     if len(run) == 1:
         return str(run[0])
 
@@ -78,13 +79,19 @@ class FrameList(list):
 
         # Gapped — break into contiguous runs and join with commas
         runs: list[str] = []
-        run = [self[0]]
+        run: list[int] = [self[0]]
 
+        # Walk frames starting from the second, building up runs of consistent stride.
+        # On the first step into a new run we don't know the stride yet, so we derive
+        # it from the gap between the current frame and the single element in run.
+        # Once run has two or more elements the stride is fixed as run[1] - run[0].
         for frame in self[1:]:
             run_stride = run[1] - run[0] if len(run) > 1 else frame - run[0]
             if frame == run[-1] + run_stride:
+                # Frame continues the current run at the expected stride.
                 run.append(frame)
             else:
+                # Stride broke — flush the completed run and start a new one.
                 runs.append(_run_to_str(run))
                 run = [frame]
 
@@ -93,6 +100,10 @@ class FrameList(list):
 
     @property
     def stride(self) -> int:
+        """
+        Stride is the uniform step size between frames, or 0 if there is no
+        consistent stride (i.e. the sequence has gaps or mixed increments).
+        """
         self.sort()
 
         if len(self) < 2:
@@ -107,16 +118,19 @@ class FrameList(list):
 
     @property
     def first(self) -> int:
+        """The lowest frame number."""
         self.sort()
         return self[0]
 
     @property
     def last(self) -> int:
+        """The highest frame number."""
         self.sort()
         return self[-1]
 
     @property
     def contiguous(self) -> bool:
+        """Whether the frame list has a uniform stride (no gaps)."""
         return self.stride != 0
 
 
