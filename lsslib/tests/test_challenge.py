@@ -151,8 +151,10 @@ def test_many_kinds() -> None:
         "finbad.6.md",
         "finbad.7.md",
         "finbad.8.md",
+        # non-image
+        "README.md",
     ]
-    seq_table, _ = lsslib.scan_filenames(files)
+    seq_table, others = lsslib.scan_filenames(files)
     result = seq_table.to_strings()
 
     assert result == [
@@ -162,3 +164,5 @@ def test_many_kinds() -> None:
         "baz.1-8#4.md",
         "finbad.1-8#.md",
     ]
+
+    assert others == ["README.md"]
