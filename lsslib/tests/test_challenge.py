@@ -2,11 +2,11 @@ import lsslib
 
 
 def test_frame_list() -> None:
-    assert str(lsslib.Frames([1])) == "1"
-    assert str(lsslib.Frames([1, 2, 3, 4])) == "1-4"
-    assert str(lsslib.Frames([5, 6, 7])) == "5-7"
-    assert str(lsslib.Frames([0, 5, 10, 15])) == "0-15x5"
-    assert str(lsslib.Frames([1, 2, 3, 5, 6, 7])) == "1-3,5-7"
+    assert str(lsslib.FrameList([1])) == "1"
+    assert str(lsslib.FrameList([1, 2, 3, 4])) == "1-4"
+    assert str(lsslib.FrameList([5, 6, 7])) == "5-7"
+    assert str(lsslib.FrameList([0, 5, 10, 15])) == "0-15x5"
+    assert str(lsslib.FrameList([1, 2, 3, 5, 6, 7])) == "1-3,5-7"
 
 
 def test_parse_filename() -> None:

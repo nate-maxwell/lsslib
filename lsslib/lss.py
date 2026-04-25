@@ -33,7 +33,7 @@ def _run_to_str(run: list[int]) -> str:
     return f"{run[0]}-{run[-1]}x{stride}"
 
 
-class Frames(list):
+class FrameList(list):
     """
     A sorted list of integer frame numbers belonging to a single image sequence.
 
@@ -115,7 +115,7 @@ class SequenceIdentifier(object):
     ext: str
 
 
-class Sequences(defaultdict[SequenceIdentifier, Frames]):
+class SequenceDict(defaultdict[SequenceIdentifier, FrameList]):
     """
     Dictionary of sequence identifiers and found frames.
 
@@ -129,7 +129,7 @@ class Sequences(defaultdict[SequenceIdentifier, Frames]):
     """
 
     def __init__(self) -> None:
-        super().__init__(Frames)
+        super().__init__(FrameList)
 
     def format(self) -> list[str]:
         out = []
@@ -142,10 +142,10 @@ class Sequences(defaultdict[SequenceIdentifier, Frames]):
         return out
 
 
-def scan_filenames(filenames: list[str]) -> tuple[Sequences, list[str]]:
+def scan_filenames(filenames: list[str]) -> tuple[SequenceDict, list[str]]:
     """Returns a populated Sequences dict and a list of non-frame files."""
     non_img_files = []
-    seq_dict = Sequences()
+    seq_dict = SequenceDict()
 
     for filename in filenames:
         parsed = parse_frame_name(filename)
@@ -160,7 +160,7 @@ def scan_filenames(filenames: list[str]) -> tuple[Sequences, list[str]]:
     return seq_dict, non_img_files
 
 
-def lss(path: str | os.PathLike) -> tuple[Sequences, list[str]]:
+def lss(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
     """
     Returns a populated Sequences dict and a list of non-frame files from a
     directory.
