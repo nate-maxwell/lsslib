@@ -1,5 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
+"""
+lsslib, a small library for listing image sequences in a directory.
+"""
+
+import argparse
 import os
 import re
 from collections import defaultdict
@@ -131,7 +136,7 @@ class SequenceDict(defaultdict[SequenceIdentifier, FrameList]):
     def __init__(self) -> None:
         super().__init__(FrameList)
 
-    def format(self) -> list[str]:
+    def to_strings(self) -> list[str]:
         out = []
 
         for k, v in self.items():
@@ -157,6 +162,8 @@ def scan_filenames(filenames: list[str]) -> tuple[SequenceDict, list[str]]:
         key = SequenceIdentifier(name, len(frame_num), ext)
         seq_dict[key].append(int(frame_num))
 
+    non_img_files.sort()
+
     return seq_dict, non_img_files
 
 
@@ -175,7 +182,40 @@ def scan_dir(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
     return scan_filenames(filenames)
 
 
-def lss(path: str | os.PathLike) -> None:
-    items = scan_dir(path)
-    for i in items:
+def lss(path: str | os.PathLike, all_files: bool = False) -> None:
+    seq_dict, others = scan_dir(path)
+    seqs = seq_dict.to_strings()
+
+    for i in seqs:
         print(i)
+
+    if not others or not all_files:
+        return
+    for i in others:
+        print(i)
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        prog="lss", description="List image sequences in a directory."
+    )
+    parser.add_argument(
+        "paths",
+        nargs="*",
+        default=["."],
+        help="Directories to list (default: current directory).",
+    )
+    parser.add_argument(
+        "-a", "--all", action="store_true", help="Also list non-sequence files."
+    )
+    args = parser.parse_args()
+
+    for path in args.paths:
+        if len(args.paths) > 1:
+            print(f"{path}:")
+
+        lss(path)
+
+
+if __name__ == "__main__":
+    main()
