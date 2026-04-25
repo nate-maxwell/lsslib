@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 
-"""
-lsslib, a small library for listing image sequences in a directory.
+"""lsslib, a small library for listing image sequences in a directory."""
 
-usage: lss [-h] [-a] [paths ...]
-    -h help
-    -a list all items
-"""
-
-import argparse
 import os
 import re
 from collections import defaultdict

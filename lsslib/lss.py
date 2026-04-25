@@ -1,3 +1,10 @@
+"""
+lss cli command
+usage: lss [-h] [-a] [paths ...]
+    -h help
+    -a list all items
+"""
+
 import argparse
 
 from . import lsslib
