@@ -105,3 +105,53 @@ def test_non_padded() -> None:
     result = seq_table.to_strings()
 
     assert result == ["foo.0-3#.exr"]
+
+
+def test_many_kinds() -> None:
+    files = [
+        # missing frame 4
+        "foo.0001.txt",
+        "foo.0002.txt",
+        "foo.0003.txt",
+        "foo.0005.txt",
+        "foo.0006.txt",
+        "foo.0007.txt",
+        # three padding
+        "foo.001.txt",
+        "foo.002.txt",
+        "foo.003.txt",
+        # different seq
+        "bar.0000.txt",
+        "bar.0005.txt",
+        "bar.0010.txt",
+        "bar.0015.txt",
+        "bar.0020.txt",
+        # different suffix
+        "baz.0001.md",
+        "baz.0002.md",
+        "baz.0003.md",
+        "baz.0004.md",
+        "baz.0005.md",
+        "baz.0006.md",
+        "baz.0007.md",
+        "baz.0008.md",
+        # no padding
+        "finbad.1.md",
+        "finbad.2.md",
+        "finbad.3.md",
+        "finbad.4.md",
+        "finbad.5.md",
+        "finbad.6.md",
+        "finbad.7.md",
+        "finbad.8.md",
+    ]
+    seq_table, _ = lsslib.scan_filenames(files)
+    result = seq_table.to_strings()
+
+    assert result == [
+        "foo.1-3,5-7#4.txt",
+        "foo.1-3#3.txt",
+        "bar.0-20x5#4.txt",
+        "baz.1-8#4.md",
+        "finbad.1-8#.md",
+    ]
