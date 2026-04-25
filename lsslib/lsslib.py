@@ -214,7 +214,7 @@ def main() -> None:
         if len(args.paths) > 1:
             print(f"{path}:")
 
-        lss(path)
+        lss(path, args.all)
 
 
 if __name__ == "__main__":
