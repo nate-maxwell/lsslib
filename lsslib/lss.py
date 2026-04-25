@@ -160,7 +160,7 @@ def scan_filenames(filenames: list[str]) -> tuple[SequenceDict, list[str]]:
     return seq_dict, non_img_files
 
 
-def lss(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
+def scan_dir(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
     """
     Returns a populated Sequences dict and a list of non-frame files from a
     directory.
@@ -173,3 +173,9 @@ def lss(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
 
     filenames = [f.name for f in p.iterdir()]
     return scan_filenames(filenames)
+
+
+def lss(path: str | os.PathLike) -> None:
+    items = scan_dir(path)
+    for i in items:
+        print(i)
