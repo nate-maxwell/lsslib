@@ -107,6 +107,13 @@ def test_non_padded() -> None:
     assert result == ["foo.0-3#.exr"]
 
 
+def test_all_files() -> None:
+    files = ["foo.0001.exr", "foo.0002.exr", "foo.0003.exr", "other.jpg", "one_more"]
+    _, result = lsslib.scan_filenames(files)
+
+    assert result == ["one_more", "other.jpg"]
+
+
 def test_many_kinds() -> None:
     files = [
         # missing frame 4
