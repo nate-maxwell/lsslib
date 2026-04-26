@@ -175,6 +175,7 @@ def test_many_kinds() -> None:
 
 # scan_dir() tests double as scan_filenames() test
 
+
 def test_scan_dir_not_a_directory() -> None:
     with pytest.raises(ValueError):
         lsslib.scan_dir("/not/a/real/path")
