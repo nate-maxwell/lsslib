@@ -18,7 +18,7 @@ it could be run as a terminal command after running `pip install -e <path/to/lss
 
 ---
 
-## lss CLI Command
+### lss CLI Command
 
 Arg parser that invokes library functionality
 
@@ -30,7 +30,7 @@ usage: lss [-h] [-a] [paths ...]
 
 ---
 
-## Library
+### Library
 
 The library consists of 3 main components and various smaller components:
 * `FrameList` - A list of frame numbers that stringifies into a compact representation.
