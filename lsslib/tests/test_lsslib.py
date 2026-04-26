@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+import tempfile
+from pathlib import Path
+
+import pytest
+
 import lsslib
 
 
@@ -166,3 +171,19 @@ def test_many_kinds() -> None:
         "finbad.1-8#.md",
     ]
     assert others == ["README.md"]
+
+
+def test_scan_dir_not_a_directory() -> None:
+    with pytest.raises(ValueError):
+        lsslib.scan_dir("/not/a/real/path")
+
+
+def test_scan_dir_scans_directory() -> None:
+    with tempfile.TemporaryDirectory() as tmpdir:
+        for name in ["foo.0001.exr", "foo.0002.exr", "foo.0003.exr", "readme.txt"]:
+            Path(tmpdir, name).write_text("")
+
+        sequences, remainder = lsslib.scan_dir(tmpdir)
+
+        assert sequences.to_strings() == ["foo.1-3#4.exr"]
+        assert remainder == ["readme.txt"]
