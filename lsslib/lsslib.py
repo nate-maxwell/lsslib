@@ -15,9 +15,9 @@ def parse_frame_name(filename: str) -> tuple | None:
     Returns the name, frame_num, ext of an image frame formatted as "foo.0001.exr"
     if it can be determined else None.
     """
-    PATTERN: re.Pattern[str] = re.compile(r"^(.+?)\.(\d+)\.([^.]+)$")
+    pattern: re.Pattern[str] = re.compile(r"^(.+?)\.(\d+)\.([^.]+)$")
 
-    match = PATTERN.match(filename)
+    match = pattern.match(filename)
     if not match:
         return None
 
