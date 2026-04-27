@@ -84,7 +84,7 @@ class FrameList(list):
                 # Frame continues the current run at the expected stride.
                 run.append(frame)
             else:
-                # Stride broke — flush the completed run and start a new one.
+                # Stride broke — store the completed run and start a new one.
                 runs.append(_run_to_str(run))
                 run = [frame]
 
