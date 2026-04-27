@@ -183,8 +183,8 @@ def scan_filenames(filenames: list[str]) -> tuple[SequenceDict, list[str]]:
 
 def scan_dir(path: str | os.PathLike) -> tuple[SequenceDict, list[str]]:
     """
-    Returns a populated Sequences dict and a list of non-frame files from a
-    directory.
+    Returns a populated Sequences dict and a separate list of non-frame files
+    from a directory.
 
     Raises ValueError if path is not dir.
     """

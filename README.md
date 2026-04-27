@@ -33,8 +33,9 @@ usage: lss [-h] [-a] [paths ...]
 ### Library
 
 The library consists of 3 main components and various smaller components:
-* `FrameList` - A list of frame numbers that stringifies into a compact representation.
-* `SequenceDict` - A dictionary of sequence identifiers to FrameLists with
+* `FrameList` - A list class of frame numbers that stringifies into a compact
+representation.
+* `SequenceDict` - A dictionary class of sequence identifiers to FrameLists with
 attributes of the sequence.
 * `scan_filenames()` - The primary function that `scan_dir()` and `lss()` are
 built on. Separated for easier testing and more flexible library usage.
