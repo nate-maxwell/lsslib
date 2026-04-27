@@ -14,7 +14,7 @@ the bare folder.
 Testing was done using pytest, and is outlined in the toml.
 
 The toml also contains `lss:main` in  the `[project.scripts]` section so
-it could be run as a terminal command after running `pip install -e <path/to/lsslib>`.
+it could be run as a terminal command after running `pip install <path/to/lsslib>`.
 
 ---
 
