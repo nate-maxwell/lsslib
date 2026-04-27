@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """
 lsslib, a small library for listing and representing image sequences in
 compact forms.
