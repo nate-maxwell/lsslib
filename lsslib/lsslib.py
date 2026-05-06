@@ -142,8 +142,8 @@ class SequenceDict(defaultdict[SequenceIdentifier, FrameList]):
     { SequenceIdentifier: list[int] }
 
     Example:
-        sequences = Sequences()
-        sequences.scan(["foo.0001.exr", "foo.0002.exr"])
+        sequences = SequenceDict()
+        SequenceDict.scan(["foo.0001.exr", "foo.0002.exr"])
 
         >> { SequenceIdentifier("foo", 4, "exr"): [1, 2] }
     """
